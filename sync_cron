@@ -1,0 +1,5 @@
+# Run the hourly jobs
+SHELL=/bin/bash
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+MAILTO=root
+*/2 * * * * root /bin/sh /root/sync_data.sh sync >> /var/log/sync_data.log

@@ -1,0 +1,68 @@
+﻿
+注：测试过程中请先备份接受端数据库和本地的存放同步文件目录下的文件。
+
+
+
+1.使用脚本前，先修改各项参数,具体如下：
+
+
+# 远程主机地址
+pub_address="192.168.0.1"
+
+
+# 远程需要同步的文件目录
+pub_files_path="/root/id_rsa.pub"
+
+# 本地的存放同步文件目录路径
+local_files_path="/home/jokey/id_rsa.pub"
+
+
+#数据库用户
+db_user="root"
+
+
+#数据库密码
+pub_db_passwd="db_passwd"
+local_db_psswd="db_passwd"
+
+
+#数据库名
+db_name1="db1"
+db_name2="db2"
+
+
+
+注意记得修改sync_cron中的脚本实际路径。
+
+2.初始化授权，运行
+
+sh sync_data.sh init 
+
+初始化过程如提供的截图1示，当提示输入远程主机的登录密码时，输入正确的root密码，
+初始化完成后如提供的截图2所示。
+
+
+3.完成初始化后，运行
+
+sh sync_data.sh sync
+
+即可开始同步数据库和文件目录。
+
+
+4.要定时同步，需要设置定时任务执行
+sh sync_data.sh sync 即可。
+
+
+
+
+
+
+九月二号更新：
+脚本经测试可行，并添加定时任务和日志查看服务，且在init脚本已自动设置，任务配置文件为sync_cron，存放生效目录为/etc/cron.d/sync_cron,同步日志在/var/log/sync_data.log中。
+
+数据库同步时提示“not allowed to connect” 错误解决方法：
+进入主数据库中设置：
+
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'xaut.qll' WITH GRANT OPTION;
+
+其中'xaut.qll'为数据库密码。
